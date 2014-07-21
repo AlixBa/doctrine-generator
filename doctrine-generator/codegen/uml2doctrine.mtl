@@ -123,7 +123,7 @@ use Doctrine\ORM\Mapping as ORM;
 [template public entityProperties(c : Class) post(trim())]
 [for (p: Property | c.attribute) separator ('\n')]
 [let typePHP : String = p.type.name.replaceAll('Integer', 'integer').replaceAll('String', 'string').replaceAll('Boolean', 'boolean')]
-[let typeDoc : String = p.type.name.replaceAll('Integer', 'integer').replaceAll('String', 'string').replaceAll('\\\\DateTime', 'datetime').replaceAll('Boolean', 'boolean')]
+[let typeDoc : String = typePHP.replaceAll('\\\\DateTime', 'datetime')]
 /*
  * @var [typePHP/]
  *
@@ -176,13 +176,13 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 [template public oneToOne(p : Property) post(trim()) {
-	isOwningSide : Boolean = p.opposite.eAnnotations.details->select(value = 'owning')->isEmpty();
+	isOwningSide : Boolean = p.eAnnotations.details->select(value = 'owning')->notEmpty();
 	isNullable : Boolean = p.lower.toString().equalsIgnoreCase('0');
 }]
 /*
  * @var [entityFQN(p.type.oclAsType(Class))/]
  *
- * @ORM\OneToOne(targetEntity="[entityFQN(p.type.oclAsType(Class))/]", [if(isOwningSide)]mapped[else]inversed[/if]By="[p.opposite.name/]")
+ * @ORM\OneToOne(targetEntity="[entityFQN(p.type.oclAsType(Class))/]", [if(isOwningSide)]inversed[else]mapped[/if]By="[p.opposite.name/]")
 [if (isNullable)]
  * @ORM\JoinColumn(nullable=true)
 [/if]
@@ -206,12 +206,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 [template public manyToMany(p : Property) post(trim()) {
-	isOwningSide : Boolean = p.opposite.eAnnotations.details->select(value = 'owning')->isEmpty();
+	isOwningSide : Boolean = p.eAnnotations.details->select(value = 'owning')->notEmpty();
 }]
 /*
  * @var Doctrine\Common\Collections\ArrayCollection
  *
- * @ORM\ManyToMany(targetEntity="[entityFQN(p.type.oclAsType(Class))/]", [if(isOwningSide)]mapped[else]inversed[/if]By="[p.opposite.name/]")
+ * @ORM\ManyToMany(targetEntity="[entityFQN(p.type.oclAsType(Class))/]", [if(isOwningSide)]inversed[else]mapped[/if]By="[p.opposite.name/]")
  */
 [p.visibility/] $[p.name/];
 [/template]
