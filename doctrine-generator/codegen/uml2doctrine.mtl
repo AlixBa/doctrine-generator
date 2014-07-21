@@ -282,7 +282,7 @@ public function get[p.name.toUpperFirst()/]()
  * 
  * @return $this
  */
-public function set[p.name.toUpperFirst()/]([if (isAssociation)][entityFQN(p.type.oclAsType(Class))/] [elseif (typePHPDec->count(typePHP).toString().equalsIgnoreCase('0'))][typePHP/][/if]$[p.name/]) 
+public function set[p.name.toUpperFirst()/]([if (isAssociation)][entityFQN(p.type.oclAsType(Class))/] [elseif (typePHPDec->count(typePHP).toString().equalsIgnoreCase('0'))][typePHP/] [/if]$[p.name/]) 
 {
 	[if (isAssociation)]
 	if($this->get[p.name.toUpperFirst()/]() !== $[p.name/])
