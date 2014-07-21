@@ -134,6 +134,8 @@ use Doctrine\ORM\Mapping as ORM;
 [/if]
  */
 [p.visibility/] $[p.name/];
+
+[p.eAnnotations.details/]
 [/let]
 [/let]
 [/for]
