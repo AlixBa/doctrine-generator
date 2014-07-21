@@ -106,14 +106,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 
-[template public entityAbstract(c : Class) post(trim())]
+[template public entityAbstract(c : Class)]
 [if (c.isAbstract)]abstract [/if]
 [/template]
 
 
 
 
-[template public entityExtends(c : Class) post(trim())]
+[template public entityExtends(c : Class)]
 [if (not c.superClass->isEmpty())] extends [for (sc : Class | c.superClass) separator (', ')][entityFQN(sc)/][/for][/if]
 [/template]
 
