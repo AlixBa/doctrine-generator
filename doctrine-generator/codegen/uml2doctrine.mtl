@@ -122,16 +122,20 @@ use Doctrine\ORM\Mapping as ORM;
 
 [template public entityProperties(c : Class) post(trim())]
 [for (p: Property | c.attribute) separator ('\n')]
+[let typePHP : String = p.type.name.replaceAll('Integer', 'integer').replaceAll('String', 'string').replaceAll('Boolean', 'boolean')]
+[let typeDoc : String = p.type.name.replaceAll('Integer', 'integer').replaceAll('String', 'string').replaceAll('\\DateTime', 'datetime').replaceAll('Boolean', 'boolean')]
 /*
- * @var [p.type.name/]
+ * @var [typePHP/]
  *
- * @ORM\Column(name="[p.name/]", type="[p.type.name/]")
+ * @ORM\Column(name="[p.name/]", type="[typeDoc/]")
 [if (p.name.equalsIgnoreCase('id'))]
  * @ORM\Id
  * @ORM\GeneratedValue(strategy="AUTO")
 [/if]
  */
 [p.visibility/] $[p.name/];
+[/let]
+[/let]
 [/for]
 [/template]
 
@@ -252,29 +256,33 @@ public function __construct()
 
 
 [template public getterProperty(p : Property, isAssociation : Boolean) post (trim())]
+[let typePHP : String = p.type.name.replaceAll('Integer', 'integer').replaceAll('String', 'string').replaceAll('Boolean', 'boolean')]
 /*
  * Gets [p.name/]
  * 
- * @return [if (isAssociation)][if (p.isMultivalued())]Doctrine\Common\Collections\ArrayCollection[else][entityFQN(p.type.oclAsType(Class))/][/if][else][p.type.name/][/if]
+ * @return [if (isAssociation)][if (p.isMultivalued())]Doctrine\Common\Collections\ArrayCollection[else][entityFQN(p.type.oclAsType(Class))/][/if][else][typePHP/][/if]
  */
 public function get[p.name.toUpperFirst()/]() 
 {
 	return $this->[p.name/];
 }
+[/let]
 [/template]
 
 
 
 
 [template public setterProperty(p : Property, isAssociation : Boolean, oneTo : Boolean) post (trim())]
+[let typePHP : String = p.type.name.replaceAll('Integer', 'integer').replaceAll('String', 'string').replaceAll('Boolean', 'boolean')]
+[let typePHPDec : Set(String) = Set{'integer', 'string', 'boolean'}]
 /*
  * Sets [p.name/]
  * 
- * @param [if (isAssociation)][entityFQN(p.type.oclAsType(Class))/][else][p.type.name/][/if] $[p.name/]
+ * @param [if (isAssociation)][entityFQN(p.type.oclAsType(Class))/][else][typePHP/][/if] $[p.name/]
  * 
  * @return $this
  */
-public function set[p.name.toUpperFirst()/]([if (isAssociation)][entityFQN(p.type.oclAsType(Class))/] [/if]$[p.name/]) 
+public function set[p.name.toUpperFirst()/]([if (isAssociation)][entityFQN(p.type.oclAsType(Class))/] [elseif (typePHPDec->count(typePHP).toString().equalsIgnoreCase('0'))][typePHP/][/if]$[p.name/]) 
 {
 	[if (isAssociation)]
 	if($this->get[p.name.toUpperFirst()/]() !== $[p.name/])
@@ -288,6 +296,8 @@ public function set[p.name.toUpperFirst()/]([if (isAssociation)][entityFQN(p.typ
 
 	return $this;
 }
+[/let]
+[/let]
 [/template]
 
 
