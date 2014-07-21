@@ -123,7 +123,7 @@ use Doctrine\ORM\Mapping as ORM;
 [template public entityProperties(c : Class) post(trim())]
 [for (p: Property | c.attribute) separator ('\n')]
 [let typePHP : String = p.type.name.replaceAll('Integer', 'integer').replaceAll('String', 'string').replaceAll('Boolean', 'boolean')]
-[let typeDoc : String = p.type.name.replaceAll('Integer', 'integer').replaceAll('String', 'string').replaceAll('\\DateTime', 'datetime').replaceAll('Boolean', 'boolean')]
+[let typeDoc : String = p.type.name.replaceAll('Integer', 'integer').replaceAll('String', 'string').replaceAll('\\\\DateTime', 'datetime').replaceAll('Boolean', 'boolean')]
 /*
  * @var [typePHP/]
  *
