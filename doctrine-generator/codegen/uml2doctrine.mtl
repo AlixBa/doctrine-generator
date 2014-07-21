@@ -176,7 +176,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 [template public oneToOne(p : Property) post(trim()) {
-	isOwningSide : Boolean = p.eAnnotations.details->select(value = 'owning')->notEmpty();
+	isOwningSide : Boolean = p.eAnnotations.details->select(value.toString().contains('association:owning'))->notEmpty();
 	isNullable : Boolean = p.lower.toString().equalsIgnoreCase('0');
 }]
 /*
@@ -206,7 +206,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 [template public manyToMany(p : Property) post(trim()) {
-	isOwningSide : Boolean = p.eAnnotations.details->select(value = 'owning')->notEmpty();
+	isOwningSide : Boolean = p.eAnnotations.details->select(value.toString().contains('association:owning'))->notEmpty();
 }]
 /*
  * @var Doctrine\Common\Collections\ArrayCollection
