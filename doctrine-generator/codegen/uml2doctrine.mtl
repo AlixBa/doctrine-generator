@@ -4,7 +4,7 @@
 
 
 
-[template public generateElement(c : Class) post (trim())]
+[template public generate(c : Class) post (trim())]
 
 
 	[comment @main/]
